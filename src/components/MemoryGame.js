@@ -1,46 +1,43 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { flippedCards, incrementTries, matchedCards, resetFlippedCards, resetGame, setCards } from '../features/game/gameSlice';
 
 const MemoryGame = ({ totalCards }) => {
-  const [tries, setTries] = useState(0);
-  const [cards, setCards] = useState([]);
-  const [matched, setMatched] = useState([]);
-  const [flipped, setFlipped] = useState([]);
+  const {cards, flipped, matched, tries} = useSelector((state) => state.game);
+  const dispatch = useDispatch();
 
   const handleFlip = (index) => {
     if(flipped.length < 2 && !flipped.includes(index) && !matched.includes(index)) {
-      setFlipped([...flipped, index]);
+      dispatch(flippedCards(index));
     }
   };
 
   const handleNewGame = () => {
-    setTries(0);
-    setMatched([]);
-    setFlipped([]);
-    setCards(generateCardNumbers(totalCards));
+    dispatch(resetGame(generateCardNumbers(totalCards)));
   }
 
   useEffect(() => {
     if(flipped.length === 2) {
       const [first, second] = flipped;
       if(cards[first] === cards[second]) {
-        setMatched((matched) => [...matched, first, second]);
+        dispatch(matchedCards([first, second]))
       }
-      setTries(tries + 1);
+      dispatch(incrementTries());
       setTimeout(() => {
-        setFlipped([]);
+        dispatch(resetFlippedCards());
       }, 1000);
     }
   }, [flipped])
   
 
-  useEffect(() => {
-    const generateCardNumbers = (totalCards) => {
-      const uniqueNumbers = Array.from({ length: totalCards / 2 }, (_, i) => i);
-      const pairedNumbers = [...uniqueNumbers, ...uniqueNumbers];
-      return pairedNumbers.sort(() => Math.random() - 0.5);
-    };
+  const generateCardNumbers = (totalCards) => {
+    const uniqueNumbers = Array.from({ length: totalCards / 2 }, (_, i) => i);
+    const pairedNumbers = [...uniqueNumbers, ...uniqueNumbers];
+    return pairedNumbers.sort(() => Math.random() - 0.5);
+  };
 
-    setCards(generateCardNumbers(totalCards));
+  useEffect(() => {
+    dispatch(setCards(generateCardNumbers(totalCards)));
   }, [totalCards])
 
   return (
