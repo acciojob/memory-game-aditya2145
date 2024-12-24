@@ -23,7 +23,7 @@ const Landing = () => {
           )
           :
           <div>
-            <h2>Welcome!</h2>
+            <h4>Welcome!</h4>
             <div className='levels_container'>
               <input type="radio" id='easy' name='levels' onClick={() => setLevel('easy')} />
               <label htmlFor="easy">Easy</label>
