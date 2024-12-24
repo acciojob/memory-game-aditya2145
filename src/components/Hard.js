@@ -4,7 +4,7 @@ import MemoryGame from './MemoryGame'
 const Hard = () => {
   return (
     <div>
-      <h1>Hard - GAmE YO</h1>
+      <h4>GAmE YO</h4>
       <MemoryGame totalCards={24} />
     </div>
   )
