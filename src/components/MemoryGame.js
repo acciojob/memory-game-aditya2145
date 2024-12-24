@@ -42,8 +42,8 @@ const MemoryGame = ({ totalCards }) => {
 
   return (
     <div>
-      <h2>Tries: {tries}</h2>
-      {matched.length === totalCards && <h1>ALL SOLVED!</h1>}
+      <h4>Tries: {tries}</h4>
+      {matched.length === totalCards && <h4>ALL SOLVED!</h4>}
       {matched.length === totalCards && <button onClick={handleNewGame}>New Game</button>}
       <div className='cells_container' style={{display: 'grid', gridTemplateColumns: `repeat(4, 1fr)`, gap: '1rem'}}>
         {
